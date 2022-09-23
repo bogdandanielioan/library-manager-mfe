@@ -1,0 +1,119 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/books-login/src",
+  "prefix": "library-manager",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/books-login",
+        "index": "apps/books-login/src/index.html",
+        "main": "apps/books-login/src/main.ts",
+        "polyfills": "apps/books-login/src/polyfills.ts",
+        "tsConfig": "apps/books-login/tsconfig.app.json",
+        "assets": [
+          "apps/books-login/src/favicon.ico",
+          "apps/books-login/src/assets"
+        ],
+        "styles": ["apps/books-login/src/styles.css"],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/books-login/webpack.config.js"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/books-login/src/environments/environment.ts",
+              "with": "apps/books-login/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/books-login/webpack.prod.config.js"
+          }
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nrwl/angular:webpack-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "books-login:build:production"
+        },
+        "development": {
+          "browserTarget": "books-login:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4201,
+        "publicHost": "http://localhost:4201"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "books-login:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/books-login/**/*.ts",
+          "apps/books-login/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/books-login"],
+      "options": {
+        "jestConfig": "apps/books-login/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "serve-static": {
+      "executor": "@nrwl/angular:file-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "books-login:build",
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "books-login:build:development"
+        },
+        "production": {
+          "buildTarget": "books-login:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
